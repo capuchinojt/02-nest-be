@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule as NestConfigModule, ConfigService as NestConfigService } from '@nestjs/config'
+import {
+  ConfigModule as NestConfigModule,
+  ConfigService as NestConfigService,
+} from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { UserModule } from './user/user.module'
-import { ConfigModule } from './config/config.module'
-import { ConfigService } from './config/config.service'
+import { AppController } from '@/app.controller'
+import { AppService } from '@/app.service'
+import { UserModule } from '@/user/user.module'
+import { ConfigModule } from '@/config/config.module'
+import { ConfigService } from '@/config/config.service'
 
 /*
   Using ConfigModule to get config from .env file

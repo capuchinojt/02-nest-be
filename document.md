@@ -6,10 +6,18 @@
 # Sử dụng npm-check-updates để check version libraries
 $ npm install -g npm-check-updates
 
+# Format code với prettier
+## Check các file vi phạm rule format code
+$ prettier . --check 
+## Ghi đè nội dung format code với prettier
+$ prettier . --write
+
 # Sử dụng class-transformer để convert config thành các class
 # cũng có thêm reflect-metadata và class-validator
 $ npm install class-transformer class-validator reflect-metadata --save
 ```
+
+- Dùng [ERD editor extension](https://erd-editor.io/) để thiết kế erd
 
 ### MONGODB
 
@@ -85,6 +93,7 @@ $ nest g resource [FolderName]
 $ npm i --save-exact -g @nestjs/cli@10.4.5
 $ nest new project-name
 ```
+
 [Nestjs with mongoDB](https://docs.nestjs.com/techniques/mongodb)
 
 2. Cài đặt mongoose để kết nối đến MongoDB
@@ -92,6 +101,7 @@ $ nest new project-name
 ```bash
 $ npm i --save-exact @nestjs/mongoose@10.0.10 mongoose@8.6.3
 ```
+
 [Nestjs with mongoDB](https://docs.nestjs.com/techniques/mongodb)
 
 3. Cài đặt nestjs config -> Get config từ env
@@ -99,4 +109,5 @@ $ npm i --save-exact @nestjs/mongoose@10.0.10 mongoose@8.6.3
 ```bash
 $ npm i --save-exact @nestjs/config@3.2.3
 ```
+
 [Nestjs config](https://docs.nestjs.com/techniques/configuration)

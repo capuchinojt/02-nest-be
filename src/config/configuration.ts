@@ -11,7 +11,7 @@ export default (configService: ConfigService): Config => ({
     username: configService.get<string>('DATABASE_USERNAME'),
     password: configService.get<string>('DATABASE_PASSWORD'),
     name: configService.get<string>('DATABASE_NAME'),
-    uri: configService.get<string>('DATABASE_URI')
+    uri: configService.get<string>('DATABASE_URI'),
   },
   jwt: {
     secret: configService.get<string>('JWT_SECRET'),

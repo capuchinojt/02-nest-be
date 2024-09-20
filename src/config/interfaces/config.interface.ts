@@ -6,8 +6,8 @@ export interface Config {
     port: number
     username: string
     password: string
-    name: string,
-    uri: string,
+    name: string
+    uri: string
   }
   jwt: {
     secret: string

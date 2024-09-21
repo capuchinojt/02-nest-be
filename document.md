@@ -6,6 +6,13 @@
 # Sử dụng npm-check-updates để check version libraries
 $ npm install -g npm-check-updates
 
+# Cài đặt bcrypt để hash password
+$ npm i bcrypt
+$ npm i --save-dev @types/bcrypt 
+
+# Cài đặt aqp (api query params) để query mongodb
+$ npm i --save-exact api-query-params@5.4.0
+
 # Format code với prettier
 ## Check các file vi phạm rule format code
 $ prettier . --check 

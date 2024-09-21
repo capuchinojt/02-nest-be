@@ -1,8 +1,4 @@
 import { Module } from '@nestjs/common'
-import {
-  ConfigModule as NestConfigModule,
-  ConfigService as NestConfigService,
-} from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 
 import { AppController } from '@/app.controller'
@@ -10,6 +6,13 @@ import { AppService } from '@/app.service'
 import { UserModule } from '@/user/user.module'
 import { ConfigModule } from '@/config/config.module'
 import { ConfigService } from '@/config/config.service'
+import { LikesModule } from '@/modules/likes/likes.module'
+import { MenuItemOptionsModule } from '@/modules/menu.item.options/menu.item.options.module'
+import { MenuItemsModule } from '@/modules/menu.items/menu.items.module'
+import { OrdersModule } from '@/modules/orders/orders.module'
+import { OrderDetailModule } from '@/modules/order.detail/order.detail.module'
+import { RestaurantsModule } from '@/modules/restaurants/restaurants.module'
+import { ReviewsModule } from '@/modules/reviews/reviews.module'
 
 /*
   Using ConfigModule to get config from .env file
@@ -17,8 +20,15 @@ import { ConfigService } from '@/config/config.service'
 */
 @Module({
   imports: [
-    UserModule,
     ConfigModule,
+    UserModule,
+    LikesModule,
+    MenuItemsModule,
+    MenuItemOptionsModule,
+    OrdersModule,
+    OrderDetailModule,
+    RestaurantsModule,
+    ReviewsModule,
     /**
       START - Import MongooseModule to connect to MongoDB
       https://docs.nestjs.com/techniques/mongodb#async-configuration

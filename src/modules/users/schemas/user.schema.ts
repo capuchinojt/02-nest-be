@@ -24,13 +24,13 @@ export class User {
   @Prop()
   image: string
 
-  @Prop()
+  @Prop({ default: 'user' })
   role: string
 
-  @Prop()
+  @Prop({ default: 'local' })
   accountType: string
 
-  @Prop()
+  @Prop({ default: false })
   isActive: boolean
 
   @Prop()

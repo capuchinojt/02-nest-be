@@ -3,7 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose'
 
 import { AppController } from '@/app.controller'
 import { AppService } from '@/app.service'
-import { UserModule } from '@/user/user.module'
 import { ConfigModule } from '@/config/config.module'
 import { ConfigService } from '@/config/config.service'
 import { LikesModule } from '@/modules/likes/likes.module'
@@ -13,6 +12,7 @@ import { OrdersModule } from '@/modules/orders/orders.module'
 import { OrderDetailModule } from '@/modules/order.detail/order.detail.module'
 import { RestaurantsModule } from '@/modules/restaurants/restaurants.module'
 import { ReviewsModule } from '@/modules/reviews/reviews.module'
+import { UsersModule } from '@/modules/users/users.module'
 
 /*
   Using ConfigModule to get config from .env file
@@ -21,7 +21,7 @@ import { ReviewsModule } from '@/modules/reviews/reviews.module'
 @Module({
   imports: [
     ConfigModule,
-    UserModule,
+    UsersModule,
     LikesModule,
     MenuItemsModule,
     MenuItemOptionsModule,

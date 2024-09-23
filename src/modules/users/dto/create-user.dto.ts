@@ -1,7 +1,7 @@
-import { IsEmail, IsEmpty, IsNotEmpty, IsPhoneNumber } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsPhoneNumber } from 'class-validator'
 
 export class CreateUserDto {
-  @(IsNotEmpty({ message: 'Name is should not be empty' }))
+  @IsNotEmpty({ message: 'Name is should not be empty' })
   name: string
 
   @IsNotEmpty({ message: 'Email is should not be empty' })

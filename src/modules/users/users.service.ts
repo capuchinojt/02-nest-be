@@ -87,7 +87,7 @@ export class UsersService {
    * @returns The user if found, otherwise `null`.
    */
   async findOne(id: string) {
-    return await this.findUserByInfo({ _id: id })
+    return await this.userModel.findOne({ _id: id })
   }
 
   /**
@@ -111,8 +111,14 @@ export class UsersService {
       })
   }
 
-  async findUserByInfo(info: any) {
-    return await this.userModel.findOne({ ...info })
+  /**
+   * Finds a user by its email.
+   *
+   * @param email The email of the user to find.
+   * @returns The user if found, otherwise `null`.
+   */
+  async findUserByEmail(email: string): Promise<User | null> {
+    return await this.userModel.findOne({ email }).select('+password').lean().exec()
   }
 
   async checkIfUserExists(email: string) {

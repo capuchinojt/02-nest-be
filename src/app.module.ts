@@ -13,6 +13,7 @@ import { OrderDetailModule } from '@/modules/order.detail/order.detail.module'
 import { RestaurantsModule } from '@/modules/restaurants/restaurants.module'
 import { ReviewsModule } from '@/modules/reviews/reviews.module'
 import { UsersModule } from '@/modules/users/users.module'
+import { AuthModule } from '@/modules/auth/auth.module';
 
 /*
   Using ConfigModule to get config from .env file
@@ -21,6 +22,7 @@ import { UsersModule } from '@/modules/users/users.module'
 @Module({
   imports: [
     ConfigModule,
+    AuthModule,
     UsersModule,
     LikesModule,
     MenuItemsModule,

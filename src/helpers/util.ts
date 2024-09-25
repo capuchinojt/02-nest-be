@@ -7,3 +7,14 @@ export const hashPassword = async (plainPassword: string, salt: number = 10) => 
     throw new Error('Error hashing password. Error:: ' + error)
   }
 }
+
+export const comparePassword = async (
+  plainPassword: string,
+  hashedPassword: string
+) => {
+  try {
+    return await bcrypt.compare(plainPassword, hashedPassword)
+  } catch (error) {
+    throw new Error('Error comparing password. Error:: ' + error)
+  }
+}

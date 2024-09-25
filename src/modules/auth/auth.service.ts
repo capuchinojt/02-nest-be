@@ -1,0 +1,42 @@
+import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+
+import { comparePassword } from '@/helpers/util'
+import { UsersService } from '@/modules/users/users.service'
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService
+  ) {}
+
+  /**
+   * Authenticates a user by their email and password.
+   *
+   * @param email The email of the user to authenticate.
+   * @param userPassword The password of the user to authenticate.
+   * @returns The authenticated user without the password.
+   * @throws {UnauthorizedException} If the email or password is incorrect.
+   */
+  async signIn(email: string, userPassword: string): Promise<any> {
+    try {
+      const user = await this.usersService.findUserByEmail(email)
+      const isValidPassword = await comparePassword(
+        userPassword,
+        user?.password
+      )
+      if (!isValidPassword) {
+        throw new UnauthorizedException('Username or password is incorrect.')
+      }
+      const payload = { sub: user._id, username: user.email }
+
+      return {
+        accessToken: await this.jwtService.signAsync(payload),
+      }
+    } catch (error) {
+      console.log('Error while authenticating user. Error:: ', error)
+      throw new UnauthorizedException('Username or password is incorrect.')
+    }
+  }
+}

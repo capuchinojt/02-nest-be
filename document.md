@@ -3,12 +3,30 @@
 ## Common
 
 ```bash
+# Cài đặt nest@cli để sử dụng lệnh command
+$ npm install -g @nestjs/cli
+
+# Các lệnh cmd với nest
+$ nest --help
+## Get help on an individual command using the following construct. Substitute any command, like new, add, etc., where you see generate in the example below to get detailed help on that command:
+$ nest generate --help
+## Creating an authentication module#
+## We'll start by generating an AuthModule and in it, an AuthService and an AuthController. We'll use the AuthService to implement the authentication logic, and the AuthController to expose the authentication endpoints.
+### Generate module, controller, service
+$ nest g resource auth 
+$ nest g module auth
+$ nest g controller auth
+$ nest g service auth
+
 # Sử dụng npm-check-updates để check version libraries
 $ npm install -g npm-check-updates
 
 # Cài đặt bcrypt để hash password
 $ npm i bcrypt
 $ npm i --save-dev @types/bcrypt 
+
+# Cài đặt jwt để generate json web token cho việc xác thực
+$ npm i --save-exact @nestjs/jwt@10.2.0
 
 # Cài đặt aqp (api query params) để query mongodb
 $ npm i --save-exact api-query-params@5.4.0

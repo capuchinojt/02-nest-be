@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
 
 export class CreateAuthDto {
-  @IsNotEmpty({message: 'Username is should not be empty'})
+  @IsNotEmpty({message: 'Email is should not be empty'})
   @IsEmail({}, {message: 'Email is not valid'})
   email: string
 

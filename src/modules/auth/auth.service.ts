@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt'
 
 import { comparePassword } from '@/helpers/util'
 import { UsersService } from '@/modules/users/users.service'
+import { User } from '@/modules/users/schemas/user.schema'
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,27 @@ export class AuthService {
     } catch (error) {
       console.log('Error while authenticating user. Error:: ', error)
       throw new UnauthorizedException('Username or password is incorrect.')
+    }
+  }
+
+  async validateUser(
+    email: string,
+    userPassword: string
+  ): Promise<User | null> {
+    const user = await this.usersService.findUserByEmail(email)
+    console.log('---validateUser - user:: ', user)
+    const isValidPassword = await comparePassword(userPassword, user?.password)
+    if (user && isValidPassword) {
+      const {password, ...userInfo} = user
+      return userInfo as User
+    }
+    return null
+  }
+
+  async login(user: User) {
+    const payload = { username: user.email, sub: user._id}
+    return {
+      access_token: this.jwtService.sign(payload)
     }
   }
 }

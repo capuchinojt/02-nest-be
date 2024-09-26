@@ -136,3 +136,18 @@ $ npm i --save-exact @nestjs/config@3.2.3
 ```
 
 [Nestjs config](https://docs.nestjs.com/techniques/configuration)
+
+4. Sử dụng Passport (auth) để build phần guard chu ứng dụng
+
+```bash
+$ npm install --save-exact @nestjs/passport@10.0.3 passport@0.7.0 passport-local@1.0.0
+$ npm install --save-dev @types/passport-local
+```
+[Passpord (auth)](https://docs.nestjs.com/recipes/passport)
+
+5. Sử dụng @nest/jwt và passport-jwt để thao tác với jwt
+
+```bash
+$ npm install --save-exact @nestjs/jwt@10.2.0 passport@0.7.0 passport-jwt@4.0.1
+$ npm install --save-dev @types/passport-jwt
+```

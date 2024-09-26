@@ -13,6 +13,7 @@ export const comparePassword = async (
   hashedPassword: string
 ) => {
   try {
+    console.log('comparePassword:: ', {plainPassword, hashPlain: await hashPassword(plainPassword), hashedPassword})
     return await bcrypt.compare(plainPassword, hashedPassword)
   } catch (error) {
     throw new Error('Error comparing password. Error:: ' + error)

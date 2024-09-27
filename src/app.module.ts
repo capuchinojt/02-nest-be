@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
+import { MailerModule } from '@nestjs-modules/mailer'
+import { APP_GUARD } from '@nestjs/core'
 
 import { AppController } from '@/app.controller'
 import { AppService } from '@/app.service'
@@ -13,8 +16,7 @@ import { OrderDetailModule } from '@/modules/order.detail/order.detail.module'
 import { RestaurantsModule } from '@/modules/restaurants/restaurants.module'
 import { ReviewsModule } from '@/modules/reviews/reviews.module'
 import { UsersModule } from '@/modules/users/users.module'
-import { AuthModule } from '@/auth/auth.module';
-import { APP_GUARD } from '@nestjs/core'
+import { AuthModule } from '@/auth/auth.module'
 import { JwtAuthGuard } from '@/auth/passport/jwt-auth.guard'
 
 /*
@@ -39,15 +41,40 @@ import { JwtAuthGuard } from '@/auth/passport/jwt-auth.guard'
     **/
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => {
-        const dbConfig = configService.get<string>('database')
-        return {
-          uri: dbConfig['uri'],
-        }
-      },
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.databaseConfig['uri'],
+      }),
       inject: [ConfigService],
     }),
     // END - Import MongooseModule to connect to MongoDB
+    // START - Import MailerModule
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        transport: {
+          host: "smtp.gmail.com",
+          port: 587,
+          secure: false,
+          auth: {
+            user: configService.mailerConfig['user'],
+            pass: configService.mailerConfig['pass'],
+          },
+        },
+        defaults: {
+          from: '"No Reply" <no-reply@localhost>',
+        },
+        // preview: true,
+        // template: {
+        //   dir: process.cwd() + '/template/',
+        //   adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+        //   options: {
+        //     strict: true,
+        //   },
+        // },
+      }),
+      inject: [ConfigService],
+    })
+    // END - Import MailerModule
   ],
   controllers: [AppController],
   providers: [

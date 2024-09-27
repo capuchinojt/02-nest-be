@@ -22,6 +22,10 @@ export class ConfigService {
     return this.config.jwt
   }
 
+  get mailerConfig(): Config['mailer'] {
+    return this.config.mailer
+  }
+
   get<T>(key: keyof Config): T {
     return this.config[key] as T
   }

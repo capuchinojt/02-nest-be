@@ -13,4 +13,8 @@ export interface Config {
     secret: string
     expiresIn: string
   }
+  mailer: {
+    user: string
+    pass: string
+  }
 }

@@ -17,4 +17,8 @@ export default (configService: ConfigService): Config => ({
     secret: configService.get<string>('JWT_SECRET'),
     expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
   },
+  mailer: {
+    user: configService.get<string>('MAILDEV_INCOMING_USER'),
+    pass: configService.get<string>('MAILDEV_INCOMING_PASS'),
+  }
 })

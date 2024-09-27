@@ -112,7 +112,7 @@ $ nest g resource [FolderName]
 
 ## BACKEND
 
-1. Cài đặt Nestjs CLI
+### 1. Cài đặt Nestjs CLI
 
 ```bash
 $ npm i --save-exact -g @nestjs/cli@10.4.5
@@ -121,7 +121,7 @@ $ nest new project-name
 
 [Nestjs with mongoDB](https://docs.nestjs.com/techniques/mongodb)
 
-2. Cài đặt mongoose để kết nối đến MongoDB
+### 2. Cài đặt mongoose để kết nối đến MongoDB
 
 ```bash
 $ npm i --save-exact @nestjs/mongoose@10.0.10 mongoose@8.6.3
@@ -129,7 +129,7 @@ $ npm i --save-exact @nestjs/mongoose@10.0.10 mongoose@8.6.3
 
 [Nestjs with mongoDB](https://docs.nestjs.com/techniques/mongodb)
 
-3. Cài đặt nestjs config -> Get config từ env
+### 3. Cài đặt nestjs config -> Get config từ env
 
 ```bash
 $ npm i --save-exact @nestjs/config@3.2.3
@@ -137,7 +137,7 @@ $ npm i --save-exact @nestjs/config@3.2.3
 
 [Nestjs config](https://docs.nestjs.com/techniques/configuration)
 
-4. Sử dụng Passport (auth) để build phần guard chu ứng dụng
+### 4. Sử dụng Passport (auth) để build phần guard chu ứng dụng
 
 ```bash
 $ npm install --save-exact @nestjs/passport@10.0.3 passport@0.7.0 passport-local@1.0.0
@@ -145,18 +145,29 @@ $ npm install --save-dev @types/passport-local
 ```
 [Passpord (auth)](https://docs.nestjs.com/recipes/passport)
 
-5. Sử dụng @nest/jwt và passport-jwt để thao tác với jwt
+### 5. Sử dụng @nest/jwt và passport-jwt để thao tác với jwt
 
 ```bash
 $ npm install --save-exact @nestjs/jwt@10.2.0 passport@0.7.0 passport-jwt@4.0.1
 $ npm install --save-dev @types/passport-jwt
 ```
-6. Sử dụng dayjs để format ngày, giờ
-   Sử dụng uuid để generate id
+### 6. Sử dụng dayjs để format ngày, giờ & Sử dụng uuid để generate id
+   
 
 ```bash
 $ npm install --save-exact dayjs@1.11.13 uuid@10.0.0
 $ npm install --save-dev @types/uuid
 ```
+
+### 7. Sử dụng nestjs-modules/mailer để gởi email
+
+```bash
+$ npm install --save-exact @nestjs-modules/mailer@2.0.2 nodemailer@6.9.15 handlebars@4.7.8
+$ npm install --save-dev @types/nodemailer
+```
+#### Setting gmail account để sử dụng mailer
+ - Tài khoản gmail phải bật 2fa (Xác thực 2 lớp)
+ - Đký thông tin tại [Google app password](https://myaccount.google.com/apppasswords)
+
 
 

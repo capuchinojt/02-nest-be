@@ -151,3 +151,12 @@ $ npm install --save-dev @types/passport-local
 $ npm install --save-exact @nestjs/jwt@10.2.0 passport@0.7.0 passport-jwt@4.0.1
 $ npm install --save-dev @types/passport-jwt
 ```
+6. Sử dụng dayjs để format ngày, giờ
+   Sử dụng uuid để generate id
+
+```bash
+$ npm install --save-exact dayjs@1.11.13 uuid@10.0.0
+$ npm install --save-dev @types/uuid
+```
+
+

@@ -28,4 +28,10 @@ export class AuthController {
   getProfile(@Request() req: any) {
     return req.user
   }
+
+  @Post('register')
+  @Public()
+  register(@Body() registerDto: CreateAuthDto) {
+    return this.authService.handleRegister(registerDto)
+  }
 }

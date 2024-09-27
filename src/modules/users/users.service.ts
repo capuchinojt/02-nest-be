@@ -2,12 +2,15 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import aqp from 'api-query-params'
+import { v4 as uuidv4 } from 'uuid'
 
 import { CreateUserDto } from '@/modules/users/dto/create-user.dto'
 import { UpdateUserDto } from '@/modules/users/dto/update-user.dto'
+import { CreateAuthDto } from '@/auth/dto/create-auth.dto'
 import { User } from '@/modules/users/schemas/user.schema'
 import { hashPassword } from '@/helpers/util'
-import { find } from 'rxjs'
+import * as dayjs from 'dayjs'
+
 
 @Injectable()
 export class UsersService {
@@ -40,6 +43,31 @@ export class UsersService {
     delete userWithoutPassword.password
 
     return userWithoutPassword
+  }
+
+  async handleRegister(registerDto: CreateAuthDto) {
+    // Hash password
+    if (await this.checkIfUserExists(registerDto.email)) {
+      throw new BadRequestException(
+        `User with email ${registerDto.email} already exists. Please use a different email.`
+      )
+    }
+
+    const passwordHashed = await hashPassword(registerDto.password)
+    const userDtoWithPasswordHashed = {
+      ...registerDto,
+      password: passwordHashed,
+      isActive: false,
+      codeId: uuidv4(),
+      codeExpired: dayjs().add(1, 'hour')
+    }
+    const newUser = await this.userModel.create(userDtoWithPasswordHashed)
+
+    // Send email to verify account
+
+    return {
+      _id: newUser._id
+    }
   }
 
   /**

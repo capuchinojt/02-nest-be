@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from "class-validator"
+import { IsEmail, IsNotEmpty, IsOptional } from "class-validator"
 
 export class CreateAuthDto {
   @IsNotEmpty({message: 'Email is should not be empty'})
@@ -7,4 +7,7 @@ export class CreateAuthDto {
 
   @IsNotEmpty({message: 'Password is should not be empty'})
   password: string
+
+  @IsOptional()
+  name: string
 }

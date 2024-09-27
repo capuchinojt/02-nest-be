@@ -46,7 +46,6 @@ export class AuthService {
     userPassword: string
   ): Promise<User | null> {
     const user = await this.usersService.findUserByEmail(email)
-    console.log('---validateUser - user:: ', user)
     const isValidPassword = await comparePassword(userPassword, user?.password)
     if (user && isValidPassword) {
       const {password, ...userInfo} = user

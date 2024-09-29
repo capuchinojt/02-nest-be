@@ -17,4 +17,8 @@ export interface Config {
     user: string
     pass: string
   }
+  codeExpired: {
+    value: number
+    unit: string
+  }
 }

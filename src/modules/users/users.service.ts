@@ -1,21 +1,26 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
+import { MailerService } from '@nestjs-modules/mailer'
 import { Model } from 'mongoose'
 import aqp from 'api-query-params'
 import { v4 as uuidv4 } from 'uuid'
+import * as dayjs from 'dayjs'
 
 import { CreateUserDto } from '@/modules/users/dto/create-user.dto'
 import { UpdateUserDto } from '@/modules/users/dto/update-user.dto'
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto'
 import { User } from '@/modules/users/schemas/user.schema'
 import { hashPassword } from '@/helpers/util'
-import * as dayjs from 'dayjs'
+// import { ConfigService } from '@/config/config.service'
 
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User.name) private readonly userModel: Model<User>
+    // Injecting the User model into the UsersService to interact with the MongoDB collection
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly mailerService: MailerService,
+    // private readonly configService: ConfigService
   ) {}
 
   /**
@@ -54,16 +59,36 @@ export class UsersService {
     }
 
     const passwordHashed = await hashPassword(registerDto.password)
+    const codeId = uuidv4()
+    // const { value, unit } = this.configService.codeExpirationConfig
+    const expirationDate = dayjs().add(5, 'minutes') // Khai báo rõ ràng hơn
     const userDtoWithPasswordHashed = {
       ...registerDto,
       password: passwordHashed,
       isActive: false,
-      codeId: uuidv4(),
-      codeExpired: dayjs().add(1, 'hour')
+      codeId,
+      codeExpired: expirationDate
     }
     const newUser = await this.userModel.create(userDtoWithPasswordHashed)
 
     // Send email to verify account
+    this.mailerService
+      .sendMail({
+        to: newUser?.email, // list of receivers
+        subject: 'Activate your account at NestApp', // Subject line
+        template: "register",
+        context: {
+          name: newUser?.name || newUser?.email,
+          url: 'https://google.com',
+          activationCode: codeId
+        }
+      })
+      .then(() => {
+        console.log('Send mail OK!!')
+      })
+      .catch((error) => {
+        console.log('Error when send email. Error:: ', error)
+      });
 
     return {
       _id: newUser._id

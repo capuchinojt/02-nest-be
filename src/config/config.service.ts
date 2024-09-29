@@ -26,6 +26,10 @@ export class ConfigService {
     return this.config.mailer
   }
 
+  get codeExpirationConfig(): Config['codeExpired'] {
+    return this.config.codeExpired
+  }
+
   get<T>(key: keyof Config): T {
     return this.config[key] as T
   }

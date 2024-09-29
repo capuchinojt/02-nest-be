@@ -20,5 +20,9 @@ export default (configService: ConfigService): Config => ({
   mailer: {
     user: configService.get<string>('MAILDEV_INCOMING_USER'),
     pass: configService.get<string>('MAILDEV_INCOMING_PASS'),
-  }
+  },
+  codeExpired: {
+    value: configService.get<number>('CODE_EXPIRATION_VALUE'),
+    unit: configService.get<string>('CODE_EXPIRED_UNIT'),
+  },
 })

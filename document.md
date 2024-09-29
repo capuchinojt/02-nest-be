@@ -159,7 +159,7 @@ $ npm install --save-exact dayjs@1.11.13 uuid@10.0.0
 $ npm install --save-dev @types/uuid
 ```
 
-### 7. Sử dụng nestjs-modules/mailer để gởi email
+### 7. Sử dụng nestjs-modules/mailer, email template engine là handlebars để gởi email
 
 ```bash
 $ npm install --save-exact @nestjs-modules/mailer@2.0.2 nodemailer@6.9.15 handlebars@4.7.8
@@ -168,6 +168,17 @@ $ npm install --save-dev @types/nodemailer
 #### Setting gmail account để sử dụng mailer
  - Tài khoản gmail phải bật 2fa (Xác thực 2 lớp)
  - Đký thông tin tại [Google app password](https://myaccount.google.com/apppasswords)
+
+#### Sử dụng template engine là handlebars để dùng cấu hình email template
+ - [Setting](https://notiz.dev/blog/send-emails-with-nestjs)
+ - Thêm phần setting bên dưới cho nestjs compiler thực hiện hot reload khi change template
+ ```json
+  "compilerOptions": {
+    ...,
+    "assets": ["mail/templates/**/*"]
+  },
+  "watchAssets": true
+ ```
 
 
 

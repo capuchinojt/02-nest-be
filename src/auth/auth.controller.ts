@@ -15,6 +15,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @Public()
   @UseGuards(LocalAuthGuard)
   async handleLogin(@Request() req: any) {
     return this.authService.login(req.user)
@@ -45,9 +46,13 @@ export class AuthController {
     this.mailerService
       .sendMail({
         to: 'dev.mailer.test.11@gmail.com', // list of receivers
-        subject: 'Testing Nest MailerModule ✔', // Subject line
-        text: 'This is email from NestApp', // plaintext body
-        html: '<b>This is email from NestApp</b>', // HTML body content
+        subject: 'Activate your account at NestApp', // Subject line
+        template: "register",
+        context: {
+          name: 'NestApp',
+          url: 'https://google.com',
+          activationCode: '123456'
+        }
       })
       .then(() => {
         console.log('Send mail OK!!')

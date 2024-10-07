@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
 import { comparePassword } from '@/helpers/util'
@@ -22,23 +22,28 @@ export class AuthService {
    * @throws {UnauthorizedException} If the email or password is incorrect.
    */
   async signIn(email: string, userPassword: string): Promise<any> {
-    try {
-      const user = await this.usersService.findUserByEmail(email)
-      const isValidPassword = await comparePassword(
-        userPassword,
-        user?.password
-      )
-      if (!isValidPassword) {
-        throw new UnauthorizedException('Username or password is incorrect.')
-      }
-      const payload = { sub: user._id, username: user.email }
+    const user = await this.usersService.findUserByEmail(email)
 
-      return {
-        accessToken: await this.jwtService.signAsync(payload),
-      }
-    } catch (error) {
-      console.log('Error while authenticating user. Error:: ', error)
+    if (!user) {
       throw new UnauthorizedException('Username or password is incorrect.')
+    }
+
+    const isValidPassword = await comparePassword(userPassword, user?.password)
+    if (!isValidPassword) {
+      throw new UnauthorizedException('Username or password is incorrect.')
+    }
+
+    const payload = { sub: user._id, username: user.email }
+
+    return {
+      user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        isActive: user.isActive,
+        role: user.role,
+      },
+      accessToken: await this.jwtService.signAsync(payload),
     }
   }
 
@@ -52,9 +57,11 @@ export class AuthService {
       const {password, ...userInfo} = user
       return userInfo as User
     }
+
     return null
   }
 
+  
   async login(user: User) {
     const payload = { username: user.email, sub: user._id}
     return {

@@ -4,7 +4,7 @@ import { Config } from '@/config/interfaces/config.interface'
 
 @Injectable()
 export class ConfigService {
-  constructor(private config: Config) {}
+  constructor(private readonly config: Config) {}
 
   get environment(): string {
     return this.config.environment

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
 import { comparePassword } from '@/helpers/util'
@@ -9,8 +9,8 @@ import { CreateAuthDto } from '@/auth/dto/create-auth.dto'
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService
   ) {}
 
   /**
@@ -61,7 +61,6 @@ export class AuthService {
     return null
   }
 
-  
   async login(user: User) {
     const payload = { username: user.email, sub: user._id}
     return {

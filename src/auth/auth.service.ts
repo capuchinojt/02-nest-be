@@ -5,6 +5,7 @@ import { comparePassword } from '@/helpers/util'
 import { UsersService } from '@/modules/users/users.service'
 import { User } from '@/modules/users/schemas/user.schema'
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto'
+import { InvalidAccountException } from '@/exceptions'
 
 @Injectable()
 export class AuthService {
@@ -25,12 +26,12 @@ export class AuthService {
     const user = await this.usersService.findUserByEmail(email)
 
     if (!user) {
-      throw new UnauthorizedException('Username or password is incorrect.')
+      throw new InvalidAccountException()
     }
 
     const isValidPassword = await comparePassword(userPassword, user?.password)
     if (!isValidPassword) {
-      throw new UnauthorizedException('Username or password is incorrect.')
+      throw new InvalidAccountException()
     }
 
     const payload = { sub: user._id, username: user.email }

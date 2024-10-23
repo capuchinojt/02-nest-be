@@ -1,11 +1,12 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseFilters, UseGuards } from '@nestjs/common'
 import { MailerService } from '@nestjs-modules/mailer'
 
 import { AuthService } from '@/auth/auth.service'
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto'
 import { LocalAuthGuard } from '@/auth/passport/local-auth.guard'
 import { JwtAuthGuard } from '@/auth/passport/jwt-auth.guard'
-import { Public } from '@/decorator/customize'
+import { Public, ResponseMessage } from '@/decorator/customize'
+import { InvalidAccountExceptionFilter } from '@/exceptions/httpException.filter'
 
 @Controller('auth')
 export class AuthController {
@@ -17,12 +18,15 @@ export class AuthController {
   @Post('login')
   @Public()
   @UseGuards(LocalAuthGuard)
+  @ResponseMessage("Handle login")
   async handleLogin(@Request() req: any) {
     return this.authService.login(req.user)
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('signIn')
+  @ResponseMessage('Handle signIn')
+  @UseFilters(InvalidAccountExceptionFilter)
   @Public()
   signIn(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.signIn(createAuthDto.email, createAuthDto.password)

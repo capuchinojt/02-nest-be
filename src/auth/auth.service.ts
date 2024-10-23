@@ -1,11 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
 import { comparePassword } from '@/helpers/util'
 import { UsersService } from '@/modules/users/users.service'
 import { User } from '@/modules/users/schemas/user.schema'
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto'
-import { InvalidAccountException } from '@/exceptions'
+import { InactiveAccountException, InvalidAccountException } from '@/exceptions'
 
 @Injectable()
 export class AuthService {
@@ -23,6 +23,9 @@ export class AuthService {
    * @throws {UnauthorizedException} If the email or password is incorrect.
    */
   async signIn(email: string, userPassword: string): Promise<any> {
+    if (!email || !userPassword) {
+      throw new BadRequestException()
+    }
     const user = await this.usersService.findUserByEmail(email)
 
     if (!user) {
@@ -32,6 +35,10 @@ export class AuthService {
     const isValidPassword = await comparePassword(userPassword, user?.password)
     if (!isValidPassword) {
       throw new InvalidAccountException()
+    }
+
+    if (user?.isActive === false) {
+      throw new InactiveAccountException()
     }
 
     const payload = { sub: user._id, username: user.email }

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
 import { MailerModule } from '@nestjs-modules/mailer'
-import { APP_GUARD } from '@nestjs/core'
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 
 import { AppController } from '@/app.controller'
 import { AppService } from '@/app.service'
@@ -18,6 +18,7 @@ import { ReviewsModule } from '@/modules/reviews/reviews.module'
 import { UsersModule } from '@/modules/users/users.module'
 import { AuthModule } from '@/auth/auth.module'
 import { JwtAuthGuard } from '@/auth/passport/jwt-auth.guard'
+import { TransformInterceptor } from '@/core/transform.interceptor'
 
 /*
   Using ConfigModule to get config from .env file
@@ -84,6 +85,11 @@ import { JwtAuthGuard } from '@/auth/passport/jwt-auth.guard'
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    // Add interceptor for custom httpStatus and message for each response
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor
+    }
   ],
 })
 export class AppModule {}

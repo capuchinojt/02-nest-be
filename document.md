@@ -179,6 +179,13 @@ $ npm install --save-dev @types/nodemailer
   },
   "watchAssets": true
  ```
+### 8. Chú ý:
+ - Để có thể custom được httpStatus, statusText, message trà về từ response có thể sử dụng [interceptor](https://stackoverflow.com/questions/72258973/nestjs-interceptor-how-to-get-response-status-code-and-body-after-response-is) cho nestjs
+
+ 1. Define custom decorator ResponseMessage tại src/decorator/customize.ts
+ 2. Define interceptor tại src/core/transform.interceptor.ts
+ 3. Apply vào tại app.module
+ 4. Sử dụng decorator responseMessage
 
 
 

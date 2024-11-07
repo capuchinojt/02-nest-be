@@ -5,7 +5,8 @@ import { comparePassword } from '@/helpers/util'
 import { UsersService } from '@/modules/users/users.service'
 import { User } from '@/modules/users/schemas/user.schema'
 import { CreateAuthDto } from '@/auth/dto/create-auth.dto'
-import { InactiveAccountException, InvalidAccountException } from '@/exceptions'
+import { ExpiredCodeException, InactiveAccountException, InvalidAccountException, InvalidVerifyCodeException } from '@/exceptions'
+
 
 @Injectable()
 export class AuthService {
@@ -78,5 +79,23 @@ export class AuthService {
 
   async handleRegister(registerDto: CreateAuthDto) {
     return await this.usersService.handleRegister(registerDto)
+  }
+
+  async verifyAccount(userId: string, verifyCode: string) {
+    const userInfo = await this.usersService.findOne(userId)
+    if (!userInfo) {
+      throw new InvalidAccountException()
+    }
+
+    if (userInfo.codeId !== verifyCode) {
+      throw new InvalidVerifyCodeException()
+    }
+
+    const now = new Date()
+    if (now > userInfo.codeExpired) {
+      throw new ExpiredCodeException()
+    }
+
+    return await this.login(userInfo)
   }
 }

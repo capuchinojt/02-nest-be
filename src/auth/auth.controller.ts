@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseFilters, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Request, UseFilters, UseGuards } from '@nestjs/common'
 import { MailerService } from '@nestjs-modules/mailer'
 
 import { AuthService } from '@/auth/auth.service'
@@ -42,6 +42,12 @@ export class AuthController {
   @Public()
   register(@Body() registerDto: CreateAuthDto) {
     return this.authService.handleRegister(registerDto)
+  }
+
+  @Post('verify/:userId')
+  @Public()
+  verify(@Param('userId') userId: string, @Body('activationCode') activationCode: string) {
+    return this.authService.verifyAccount(userId, activationCode)
   }
 
   @Get('mail')

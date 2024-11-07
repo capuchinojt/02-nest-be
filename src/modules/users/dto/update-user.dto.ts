@@ -7,4 +7,7 @@ export class UpdateUserDto extends PartialType(
 ) {
   @IsOptional()
   name?: string
+  isActive?: boolean
+  codeId?: string
+  codeExpired?: Date
 }
